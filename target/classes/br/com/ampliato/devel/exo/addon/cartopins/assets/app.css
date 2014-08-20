@@ -1,0 +1,10 @@
+#map { 
+	margin-top: 10px;
+	height: 600px; 
+}
+
+.geopin-container{
+	border: 1px solid #777;
+	background-color: #777;
+	padding-top:  10px;
+}
