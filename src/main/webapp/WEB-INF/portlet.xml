@@ -15,7 +15,7 @@
      <supports>
        <mime-type>text/html</mime-type>
         <portlet-mode>view</portlet-mode>
-        <portlet-mode>edit</portlet-mode>       
+        <portlet-mode>edit</portlet-mode>
      </supports>
      
      <supported-locale>en</supported-locale>
@@ -24,5 +24,11 @@
      <portlet-info>
        <title>Ampliato CartoPins</title>
      </portlet-info>
+     
+     <!-- Não esqueça de colocar o portlet-mode edit -->
+      <portlet-preferences>
+            <preferences-validator>br.com.ampliato.devel.exo.addon.cartopins.CartoPinsPreferencesValidator</preferences-validator> 
+        </portlet-preferences>
+     
    </portlet>
 </portlet-app>

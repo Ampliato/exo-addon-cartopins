@@ -22,11 +22,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javax.portlet.PortletMode;
-import javax.portlet.PortletPreferences;
-import javax.xml.ws.Action;
 
+import juzu.Action;
 import juzu.Path;
 import juzu.Resource;
 import juzu.Response;
@@ -36,17 +34,24 @@ import juzu.bridge.portlet.JuzuPortlet;
 import juzu.plugin.ajax.Ajax;
 import juzu.request.RequestContext;
 import juzu.template.Template;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeoData;
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeoDataContainer;
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeopinUtil;
+import br.com.ampliato.devel.exo.addon.cartopins.data.PortletPreferencesKeys;
 
-public class Controller {
-
-//	private static final Log LOG = ExoLogger.getLogger(Controller.class);
+public class Controller 
+{
+	private final Log log = LogFactory.getLog(getClass().getName());
 	
-//	@Inject
-//	Provider<PortletPreferences> providerPreferences;
-
+	GeopinUtil util = new GeopinUtil();
+	List<GeoData> allData = null;
+	
+	@Inject javax.portlet.PortletPreferences preferences;
+	
 	@Inject
 	ResourceBundle bundle;
 	private Locale locale = Locale.ENGLISH;
@@ -69,13 +74,12 @@ public class Controller {
 			bundle = reqContext.getApplicationContext().resolveBundle(locale);
 		}
 		
-		// PortletPreferences prefs = providerPreferences.get();
-		// String refresh = prefs.getValue("refresh", "10");
-		// if ("".equals(refresh)) refresh="10";
-
+//		String userId = reqContext.getCurrentInstance().getRemoteUser();
 		
-		PortletMode portletMode = reqContext
-				.getProperty(JuzuPortlet.PORTLET_MODE);
+		String refresh = preferences.getValue("RefreshTime", "10");
+		System.out.println(refresh);
+		 
+		PortletMode portletMode = reqContext.getProperty(JuzuPortlet.PORTLET_MODE);
 
 		if (portletMode.equals(PortletMode.VIEW)) {
 			return index.ok();
@@ -87,21 +91,39 @@ public class Controller {
 	}
 
 	@Action
-	public Response edit() throws Exception {
-		// preferences.setValue("captcha", captcha == null ? "false" : "true");
-		// preferences.store();
-		 Controller_.index().setProperty(JuzuPortlet.PORTLET_MODE, PortletMode.VIEW);
+	public Response save(
+			String driver, 
+			String refreshtime, 
+			String host, 
+			String port, 
+			String database,
+			String username,
+			String password,
+			String query) throws Exception 
+	{
+		preferences.setValue(PortletPreferencesKeys.Driver, driver);
+		preferences.setValue(PortletPreferencesKeys.RefreshTime, refreshtime);
+		preferences.setValue(PortletPreferencesKeys.Host, host);
+		preferences.setValue(PortletPreferencesKeys.Port, port);
+		preferences.setValue(PortletPreferencesKeys.Database, database);
+		preferences.setValue(PortletPreferencesKeys.Username, username);
+		preferences.setValue(PortletPreferencesKeys.Password, password);
+		preferences.setValue(PortletPreferencesKeys.Query, query);
+	
+		log.info("Storing preferences. Validating.");
+		preferences.store();
+
+		Controller_.index().setProperty(JuzuPortlet.PORTLET_MODE, PortletMode.VIEW);
 		return Controller_.index().ok();
 	}
-
 
 	@Ajax
 	@Resource
 	@Route("/search")
 	public Response.Body searchGeopin(String criteria) 
 	{
-		GeopinUtil util = new GeopinUtil();
-		List<GeoData> allData = util.getAllData();
+		if (this.allData == null)
+			this.allData = util.getAllData();
 		
 		GeoDataContainer c = new GeoDataContainer();
 		c.geoDatas = util.search(criteria, allData);

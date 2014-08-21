@@ -24,11 +24,16 @@
 			<artifactId>juzu-core</artifactId>
 			<version>1.0.0-cr1</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.juzu</groupId> -->
+<!-- 			<artifactId>juzu-plugins-servlet</artifactId> -->
+<!-- 			<version>1.0.0-cr1</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.juzu</groupId>
-			<artifactId>juzu-plugins-servlet</artifactId>
+			<artifactId>juzu-plugins-portlet</artifactId>
 			<version>1.0.0-cr1</version>
-		</dependency>
+        </dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>

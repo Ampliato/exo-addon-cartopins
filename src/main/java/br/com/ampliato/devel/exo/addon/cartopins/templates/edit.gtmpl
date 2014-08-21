@@ -1,10 +1,55 @@
-<div class="UIFormWithTitle">
- <div class="TitleBar">Create a new account</div>
- <div class="HorizontalLayout">
-   <div class="FormContainer">
-     <form action="" method="post">
-       <input type="submit" value="Submit"/>
-     </form>
-   </div>
- </div>
-</div>
+<form action="@{save()}" method="post">
+    <table>
+        <tr>
+            <td>Driver:</td>
+            <td>
+                <select name="driver">
+                    <option value="org.postgresql.Driver">PostgreSQL</option>
+                    <option value="net.sourceforge.jtds.jdbc.Driver">SQLServer (jTDS)</option>
+                    <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQLServer (Microsoft)</option>
+                    <option value="com.mysql.jdbc.Driver">MySQL</option>
+                    <option value="oracle.jdbc.driver.OracleDriver">Oracle</option>
+                    <option value="org.mariadb.jdbc.Driver">MariaDB</option>
+                </select>
+            </td>
+
+            <td>Host:</td>
+            <td><input name="host" type="text"></input></td>
+
+            <td>Port:</td>
+            <td><input name="port" type="text"></input></td>
+
+        </tr>
+        
+        <tr style="border-bottom: 1px solid #000;"></tr>
+
+        <tr>
+
+            <td>Database:</td>
+            <td><input name="database" type="text"></input></td>
+
+            <td>Username:</td>
+            <td><input name="username" type="text"></input></td>
+
+            <td>Password:</td>
+            <td><input name="password" type="text"></input></td>
+
+        </tr>
+
+        <tr style="border-bottom: 1px solid #000;"></tr>
+
+        <tr>
+            <td>Refresh Time:</td>
+            <td><input name="refreshtime" type="text"></input></td>
+        </tr>
+
+        <tr style="border-bottom: 1px solid #000;"></tr>
+
+        <tr >
+            <td>SQL Query:</td>
+            <td colspan="5"><textarea name="query"></textarea></td>
+        </tr>
+
+    </table>
+   <input type="submit" value="Save"/>
+</form>
