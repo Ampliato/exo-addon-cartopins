@@ -31,6 +31,7 @@ import juzu.Response;
 import juzu.Route;
 import juzu.View;
 import juzu.bridge.portlet.JuzuPortlet;
+import juzu.impl.common.JSON;
 import juzu.plugin.ajax.Ajax;
 import juzu.request.RequestContext;
 import juzu.template.Template;
@@ -38,10 +39,11 @@ import juzu.template.Template;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import br.com.ampliato.devel.exo.addon.cartopins.conn.DBConfig;
+import br.com.ampliato.devel.exo.addon.cartopins.conn.DBFetcher;
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeoData;
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeoDataContainer;
 import br.com.ampliato.devel.exo.addon.cartopins.data.GeopinUtil;
-import br.com.ampliato.devel.exo.addon.cartopins.data.PortletPreferencesKeys;
 
 public class Controller 
 {
@@ -101,16 +103,15 @@ public class Controller
 			String password,
 			String query) throws Exception 
 	{
-		preferences.setValue(PortletPreferencesKeys.Driver, driver);
-		preferences.setValue(PortletPreferencesKeys.RefreshTime, refreshtime);
-		preferences.setValue(PortletPreferencesKeys.Host, host);
-		preferences.setValue(PortletPreferencesKeys.Port, port);
-		preferences.setValue(PortletPreferencesKeys.Database, database);
-		preferences.setValue(PortletPreferencesKeys.Username, username);
-		preferences.setValue(PortletPreferencesKeys.Password, password);
-		preferences.setValue(PortletPreferencesKeys.Query, query);
+		preferences.setValue("driver", driver);
+		preferences.setValue("refreshtime", refreshtime);
+		preferences.setValue("host", host);
+		preferences.setValue("port", port);
+		preferences.setValue("database", database);
+		preferences.setValue("username", username);
+		preferences.setValue("password", password);
+		preferences.setValue("query", query);
 	
-		log.info("Storing preferences. Validating.");
 		preferences.store();
 
 		Controller_.index().setProperty(JuzuPortlet.PORTLET_MODE, PortletMode.VIEW);
@@ -132,57 +133,40 @@ public class Controller
 				.withMimeType("application/xml");
 	}
 	
+	@Ajax
+	@Resource
+	@Route("/testdb")
+	public Response.Body testDBConnection(
+		String driver, String host, String port, String database, String username, String password
+	)
+	{
+		DBConfig conf = new DBConfig();
+		conf.setDriver(driver);
+		conf.setHost(host);
+		conf.setPort(port);
+		conf.setDatabase(database);
+		conf.setUsername(username);
+		conf.setPassword(password);
+		
+		JSON response = new JSON();
 
-	// @Override
-	// public void postActivity(String activityText) {
-	//
-	// // Gets the current container.
-	// PortalContainer container = PortalContainer.getInstance();
-	//
-	// // Gets the current user id
-	// ConversationState conversationState = ConversationState.getCurrent();
-	// org.exoplatform.services.security.Identity identity =
-	// conversationState.getIdentity();
-	// String userId = identity.getUserId();
-	//
-	// // Gets identityManager to handle an identity operation.
-	// IdentityManager identityManager = (IdentityManager)
-	// container.getComponentInstanceOfType(IdentityManager.class);
-	//
-	// // Gets an existing social identity or creates a new one.
-	// Identity userIdentity =
-	// identityManager.getOrCreateIdentity(OrganizationIdentityProvider.NAME,
-	// userId, false);
-	//
-	// // Gets activityManager to handle an activity operation.
-	// ActivityManager activityManager = (ActivityManager)
-	// container.getComponentInstanceOfType(ActivityManager.class);
-	//
-	// // Saves an activity by using ActivityManager.
-	// activityManager.saveActivity(userIdentity, null, activityText);
-	// socialService.postActivity("I have just bought <b>" + productName +
-	// "</b> !");
+		try
+		{
+			DBFetcher fetcher = new DBFetcher(conf);
+			fetcher.executeQuery("SELECT 1");
+			List<String[]> results = fetcher.getQueryData();
 
-	// }
-
-//	public class Context {
-//		ResourceBundle rs;
-//
-//		public Context(ResourceBundle rs) {
-//			this.rs = rs;
-//		}
-//
-//		public String appRes(String key) {
-//			try {
-//				return rs.getString(key).replaceAll("'", "&#39;")
-//						.replaceAll("\"", "&#34;");
-//			} catch (java.util.MissingResourceException e) {
-//				LOG.warn("Can't find resource for bundle key " + key);
-//			} catch (Exception e) {
-//				LOG.error("Error when get resource bundle key " + key, e);
-//			}
-//			return key;
-//		}
-//
-//	}
+			if (results.size() == 1 && results.get(0)[0] == "1")
+				response.set("status",  "ok");
+			else
+				response.set("status",  "Query does not return as expected.");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			response.set("status",  "Error connecting: " + e.getMessage());
+		}
+		
+		return Response.Body.content(200, "").body(response.toString()).withMimeType("application/json");
+	}
 }

@@ -8,124 +8,102 @@ import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.portlet.PortletPreferences;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import br.com.ampliato.devel.exo.addon.cartopins.data.PortletPreferencesKeys;
-
-/*
- * QueryBean.java
- *
- * QueryBean is used to execute and return the results of a query on behalf of
- * the QueryPortlet application.
- * This bean is far from robust.  Purely for demonstration of the portlet...
- *
- * Created on May 15, 2004, 59 PM
- */
-
 public class DBFetcher {
 
-	/** Designated Logger for this class. */
 	private final Log log = LogFactory.getLog(getClass().getName());
 
-	List queryData;
+	List<String[]> queryData;
 	String[] queryColumns;
-	PortletPreferences prefs;
-
-	public DBFetcher(PortletPreferences prefs) {
-		this.prefs = prefs;
+	DBConfig conf;
+	
+	public DBFetcher(DBConfig aConf) {
+		this.conf = aConf;
 	}
 
-	/** Returns a query's results. */
-	public void executeQuery(String queryString) {
+	public void executeQuery(String query) 
+	{
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		ResultSetMetaData rsm = null;
 
-		log.info("Executing executeQuery method. (New SQL to parse)");
-		try {
+		try 
+		{
+			String url = null;
+			
+			if (conf.getDriver().equals("org.postgresql.Driver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
+				url = "jdbc:jtds://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver"))
+				url = "jdbc:sqlserver://__host__:__port__;database=__database__";
+			else if (conf.getDriver().equals("com.mysql.jdbc.Driver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("oracle.jdbc.driver.OracleDriver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("org.mariadb.jdbc.Driver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
+				url = "jdbc:postgresql://__host__:__port__/__database__";
+					
+			url = url.replace("__host__", conf.getHost())
+					 .replace("__port__", conf.getPort())
+					 .replace("__database__", conf.getDatabase());
+			
 			conn = DriverManager.getConnection(
-				prefs.getValue(PortletPreferencesKeys.Driver, ""), 
-				prefs.getValue(PortletPreferencesKeys.Username, ""), 
-				prefs.getValue(PortletPreferencesKeys.Password, "")
+				url,
+				conf.getUsername(),
+				conf.getPassword()
 			);
 			
-			psmt = conn.prepareStatement(queryString);
+			log.info("[AMPLIATO CARTOPIN - DBFetcher] Query: "+ query);
 
-			log.info("QueryBean.executeQuery. queryString  : "+ queryString);
+			psmt = conn.prepareStatement(query);
 
 			rs = psmt.executeQuery();
 
 			rsm = rs.getMetaData();
-			int sqlType = 0;
+			// int sqlType = 0;
 			int colCount = rsm.getColumnCount();
 
-			this.queryData = new ArrayList(); // All data are Strings.
-			while (rs.next()) {
+			this.queryData = new ArrayList<String[]>();
+			
+			while (rs.next()) 
+			{
 				String[] record = new String[colCount];
 				this.queryColumns = new String[colCount];
 
-				for (int i = 1; i <= colCount; i++) {
+				for (int i = 1; i <= colCount; i++) 
+				{
 					queryColumns[i - 1] = rsm.getColumnLabel(i);
-					sqlType = rsm.getColumnType(i);
+					//sqlType = rsm.getColumnType(i);
 
-					// For this simple example, I'm only checking 2 types...
-					switch (sqlType) {
-					case java.sql.Types.INTEGER:
-						record[i - 1] = new Integer(rs.getInt(i)).toString();
-						break;
-					case java.sql.Types.VARCHAR:
-						record[i - 1] = rs.getString(i);
-						break;
-					}
+					// ignore types
+					// case java.sql.Types.INTEGER
+					// case java.sql.Types.INTEGER:
+					record[i - 1] = rs.getString(i);
 				}
 
 				queryData.add(record);
 			}
-		} catch (Exception e) {
+		} catch (Exception e) 
+		{
+			log.info("[AMPLIATO CARTOPIN - DBFetcher] Error in query: " + query);
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
-	/**
-	 * Getter for property queryData.
-	 * 
-	 * @return Value of property queryData.
-	 */
-	public java.util.List getQueryData() {
+	public java.util.List<String[]> getQueryData() {
 		return queryData;
 	}
 
-	/**
-	 * Setter for property queryData.
-	 * 
-	 * @param queryData
-	 *            New value of property queryData.
-	 */
-	public void setQueryData(java.util.List queryData) {
-		this.queryData = queryData;
-	}
-
-	/**
-	 * Getter for property queryColumns.
-	 * 
-	 * @return Value of property queryColumns.
-	 */
 	public java.lang.String[] getQueryColumns() {
 		return this.queryColumns;
 	}
-
-	/**
-	 * Setter for property queryColumns.
-	 * 
-	 * @param queryColumns
-	 *            New value of property queryColumns.
-	 */
-	public void setQueryColumns(java.lang.String[] queryColumns) {
-		this.queryColumns = queryColumns;
-	}
-
 }

@@ -1,8 +1,13 @@
-<form action="@{save()}" method="post">
-    <table>
+<form class="UIForm" action="@{save()}" id="cartopinconfigform" method="post">
+
+    <table class="UIFormGrid">
+    
         <tr>
-            <td>Driver:</td>
-            <td>
+            <td class="FieldLabel" scope="row">
+                <label for="driver">Driver:</label>
+            </td> 
+    
+            <td class="FieldComponent">
                 <select name="driver">
                     <option value="org.postgresql.Driver">PostgreSQL</option>
                     <option value="net.sourceforge.jtds.jdbc.Driver">SQLServer (jTDS)</option>
@@ -13,43 +18,100 @@
                 </select>
             </td>
 
-            <td>Host:</td>
-            <td><input name="host" type="text"></input></td>
-
-            <td>Port:</td>
-            <td><input name="port" type="text"></input></td>
+            <td class="FieldLabel">
+                <label for="host">Host:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="host" type="text"></input>
+            </td>
 
         </tr>
         
-        <tr style="border-bottom: 1px solid #000;"></tr>
-
         <tr>
 
-            <td>Database:</td>
-            <td><input name="database" type="text"></input></td>
+            <td class="FieldLabel">
+                <label for="port">Port:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="port" type="number"></input>
+            </td>
 
-            <td>Username:</td>
-            <td><input name="username" type="text"></input></td>
 
-            <td>Password:</td>
-            <td><input name="password" type="text"></input></td>
+            <td class="FieldLabel">
+                <label for="database">Database:</label>
+            </td>
+                
+            <td class="FieldComponent">
+                <input name="database" type="text"></input>
+            </td>
 
         </tr>
 
-        <tr style="border-bottom: 1px solid #000;"></tr>
-
         <tr>
-            <td>Refresh Time:</td>
-            <td><input name="refreshtime" type="text"></input></td>
+
+            <td class="FieldLabel">
+                <label for="username">Username:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="username" type="text"></input>
+            </td>
+
+            <td class="FieldLabel">
+                <label for="password">Password:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="password" type="password"></input>
+            </td>
+
         </tr>
 
-        <tr style="border-bottom: 1px solid #000;"></tr>
+        <tr>
+            <td class="FieldLabel">
+                <label for="refreshtime">Refresh Time:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="refreshtime" type="number"></input>
+            </td>
+            
+        </tr>
 
         <tr >
-            <td>SQL Query:</td>
-            <td colspan="5"><textarea name="query"></textarea></td>
+            <td class="FieldLabel">
+                <label for="query">SQL Query:</label>
+            </td>
+            
+            <td colspan="3">
+                <textarea  style="margin-left: 4px; min-width:558px" rows="10" cols="100" name="query"></textarea>
+            </td>
         </tr>
-
+        
     </table>
-   <input type="submit" value="Save"/>
+    
 </form>
+
+<div style="padding-top:10px;">
+    <p>Your query must provide 6 different columns, and a bunch of rows as your needs. 
+        The columns provided must be strictly in this provided order bellow, along those names. Remeber that search occurs on server side,
+        as ajaxfied search based on your "meta" column. So, if you provide millions of tuples, this portlet may crash your
+        container's memory or cpu's resources. Beside this, you query must execute quick, because of "Refresh Time" parameter, giving
+        users a good usability and responsiveness sense.
+    </p>
+    <ol>
+        <li><strong>[VARCHAR] Name:</strong> The associated displayed name for pin.</li>
+        <li><strong>[VARCHAR] Count:</strong> The associated count for pin.</li>
+        <li><strong>[VARCHAR] Lat:</strong> The Latitude for pin.</li>
+        <li><strong>[VARCHAR] Lng:</strong> The Longitude for pin.</li>
+        <li><strong>[VARCHAR] Color:</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
+        <li><strong>[VARCHAR] Meta:</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
+    </ol>
+</div>
+
+<div style="padding-top:10px;" class="text-center">
+    <button title="We will execute a 'SELECT 1' query only." onclick="App.testDBConnection();">Test Connection</button>
+    <input type="submit" value="Save" form="cartopinconfigform"/>
+</div>

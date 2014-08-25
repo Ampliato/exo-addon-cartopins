@@ -67,8 +67,32 @@ var App =
 			marker.bindPopup("<b>"+pin.name + " / " + pin.count+"!</b>");
 			
 			App.markers.addLayer(marker);
+			App.map.addLayer(App.markers);
 		}
 		
-		App.map.addLayer(App.markers);
+	},
+	
+	testDBConnection: function()
+	{
+		var d = {};
+		var form = document.forms.cartopinconfigform;
+
+		for(var i = 0; i < form.elements.length; i++)
+		{
+		   d[form.elements[i].name] = form.elements[i].value;
+		}
+		
+		$("#cartopinconfigform").jzAjax({
+	        url: "Controller.testDBConnection()",
+	        data: {},
+	    }).done(function(data) {
+	    	if (data.status =="ok"){
+	    		alert("Connection successfully tested.");
+	    	} else {
+	    		alert("Error testing connection: " +data.status);
+	    	}
+    	}).error(function(jqxhr, text, error){
+			alert("error: " + text + " - " + error);
+		});
 	}
 };
