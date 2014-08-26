@@ -1,3 +1,10 @@
+<script>
+    var latitude = ${latitude};
+    var longitude = ${longitude};
+    var refreshtime = ${refreshtime};
+    var zoom = ${zoom};
+    
+</script>
 
 <div class="geopin-container">
     

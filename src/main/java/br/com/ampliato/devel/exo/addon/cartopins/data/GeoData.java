@@ -7,15 +7,22 @@ public class GeoData {
 	
 	public GeoData() {}
 
-	public GeoData(String aName, String aLat, String  aLng, String aCount, String aColor) {
+	public GeoData(
+			String aName, 
+			String aLat, 
+			String  aLng, 
+			String aCount, 
+			String aColor, 
+			String aTokens) {
 		this.setName(aName);
 		this.setLat(aLat);
 		this.setLng(aLng);
 		this.setCount(aCount);
 		this.setColor(aColor);
+		this.setTokens(aTokens);
 	}
 	
-	private String name, lat, lng, color, count;
+	private String name, count, lat, lng, color, tokens;
 	
 	public String  getLat() {
 		return lat;
@@ -46,5 +53,13 @@ public class GeoData {
 	}
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public String getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(String tokens) {
+		this.tokens = tokens;
 	}
 }

@@ -10,7 +10,7 @@ var App =
 	
 	init: function() 
 	{
-		var map = L.map('map').setView([-23.54, -46.61], 13);
+		var map = L.map('map').setView([latitude, longitude], zoom);
 
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -78,13 +78,11 @@ var App =
 		var form = document.forms.cartopinconfigform;
 
 		for(var i = 0; i < form.elements.length; i++)
-		{
 		   d[form.elements[i].name] = form.elements[i].value;
-		}
 		
 		$("#cartopinconfigform").jzAjax({
 	        url: "Controller.testDBConnection()",
-	        data: {},
+	        data: d,
 	    }).done(function(data) {
 	    	if (data.status =="ok"){
 	    		alert("Connection successfully tested.");

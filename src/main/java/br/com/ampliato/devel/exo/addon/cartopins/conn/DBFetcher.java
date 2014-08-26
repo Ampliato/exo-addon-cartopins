@@ -33,23 +33,29 @@ public class DBFetcher {
 		try 
 		{
 			String url = null;
-			
-			if (conf.getDriver().equals("org.postgresql.Driver"))
+			String driver = this.conf.getDriver();
+
+			try
+			{
+				Class.forName(driver);
+			}
+			catch(Exception e)
+			{
+				throw new RuntimeException(e);
+			}
+
+			if (driver.equals("org.postgresql.Driver"))
 				url = "jdbc:postgresql://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
+			else if (driver.equals("net.sourceforge.jtds.jdbc.Driver"))
 				url = "jdbc:jtds://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver"))
+			else if (driver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver"))
 				url = "jdbc:sqlserver://__host__:__port__;database=__database__";
-			else if (conf.getDriver().equals("com.mysql.jdbc.Driver"))
-				url = "jdbc:postgresql://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("oracle.jdbc.driver.OracleDriver"))
-				url = "jdbc:postgresql://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("org.mariadb.jdbc.Driver"))
-				url = "jdbc:postgresql://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
-				url = "jdbc:postgresql://__host__:__port__/__database__";
-			else if (conf.getDriver().equals("net.sourceforge.jtds.jdbc.Driver"))
-				url = "jdbc:postgresql://__host__:__port__/__database__";
+			else if (driver.equals("com.mysql.jdbc.Driver"))
+				url = "jdbc:mysql://__host__:__port__/__database__";
+			else if (driver.equals("oracle.jdbc.driver.OracleDriver"))
+				url = "jdbc:oracle:thin:@__host__:__port__:__database__";
+			else if (driver.equals("org.mariadb.jdbc.Driver"))
+				url = "jdbc:mariadb://__host__:__port__/__database__";
 					
 			url = url.replace("__host__", conf.getHost())
 					 .replace("__port__", conf.getPort())

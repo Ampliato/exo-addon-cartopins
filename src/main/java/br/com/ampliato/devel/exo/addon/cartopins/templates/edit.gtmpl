@@ -3,19 +3,61 @@
     <table class="UIFormGrid">
     
         <tr>
+            <td class="text-center" colspan="4" class="FieldLabel" scope="row">
+                <span><strong>Map Settings</strong></span>
+            </td>
+        </tr>
+    
+        <tr>
+            <td class="FieldLabel" scope="row">
+                <label for="latitude">Latitude:</label>
+            </td> 
+    
+            <td class="FieldComponent">
+                <input name="latitude" value="${latitude}" type="text"></input>
+            </td>
+            
+            <td class="FieldLabel">
+                <label for="longitude">Longitude:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="longitude" value="${longitude}" type="text"></input>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="FieldLabel">
+                <label for="refreshtime">Refresh Time (secs):</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="refreshtime" value="${refreshtime}" type="number"></input>
+            </td>
+            
+            <td class="FieldLabel">
+                <label for="zoom">Map Zoom (1-13):</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="zoom" value="${zoom}" type="number"></input>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="text-center" colspan="4" class="FieldLabel" scope="row">
+                 <span><strong>Database Settings</strong></span>
+            </td>
+        </tr>
+
+        <tr>
             <td class="FieldLabel" scope="row">
                 <label for="driver">Driver:</label>
             </td> 
     
             <td class="FieldComponent">
-                <select name="driver">
-                    <option value="org.postgresql.Driver">PostgreSQL</option>
-                    <option value="net.sourceforge.jtds.jdbc.Driver">SQLServer (jTDS)</option>
-                    <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQLServer (Microsoft)</option>
-                    <option value="com.mysql.jdbc.Driver">MySQL</option>
-                    <option value="oracle.jdbc.driver.OracleDriver">Oracle</option>
-                    <option value="org.mariadb.jdbc.Driver">MariaDB</option>
-                </select>
+                <select name="driver">${driverOptions}</select>
             </td>
 
             <td class="FieldLabel">
@@ -23,7 +65,7 @@
             </td>
             
             <td class="FieldComponent">
-                <input name="host" type="text"></input>
+                <input name="host" value="${host}" type="text"></input>
             </td>
 
         </tr>
@@ -35,7 +77,7 @@
             </td>
             
             <td class="FieldComponent">
-                <input name="port" type="number"></input>
+                <input name="port" value="${port}" type="number"></input>
             </td>
 
 
@@ -44,7 +86,7 @@
             </td>
                 
             <td class="FieldComponent">
-                <input name="database" type="text"></input>
+                <input name="database" value="${database}" type="text"></input>
             </td>
 
         </tr>
@@ -56,7 +98,7 @@
             </td>
             
             <td class="FieldComponent">
-                <input name="username" type="text"></input>
+                <input name="username" value="${username}" type="text"></input>
             </td>
 
             <td class="FieldLabel">
@@ -64,20 +106,9 @@
             </td>
             
             <td class="FieldComponent">
-                <input name="password" type="password"></input>
+                <input name="password" value="${password}" type="password"></input>
             </td>
 
-        </tr>
-
-        <tr>
-            <td class="FieldLabel">
-                <label for="refreshtime">Refresh Time:</label>
-            </td>
-            
-            <td class="FieldComponent">
-                <input name="refreshtime" type="number"></input>
-            </td>
-            
         </tr>
 
         <tr >
@@ -86,7 +117,7 @@
             </td>
             
             <td colspan="3">
-                <textarea  style="margin-left: 4px; min-width:558px" rows="10" cols="100" name="query"></textarea>
+                <textarea style="margin-left: 4px; min-width:558px" rows="10" cols="100" name="query">${query}</textarea>
             </td>
         </tr>
         
@@ -99,7 +130,8 @@
         The columns provided must be strictly in this provided order bellow, along those names. Remeber that search occurs on server side,
         as ajaxfied search based on your "meta" column. So, if you provide millions of tuples, this portlet may crash your
         container's memory or cpu's resources. Beside this, you query must execute quick, because of "Refresh Time" parameter, giving
-        users a good usability and responsiveness sense.
+        users a good usability and responsiveness sense. Don't forget to put the driver class (JDBC driver lib) into classpath. Is is usually done
+        by {tomcat-folder}/lib path.
     </p>
     <ol>
         <li><strong>[VARCHAR] Name:</strong> The associated displayed name for pin.</li>
@@ -107,7 +139,7 @@
         <li><strong>[VARCHAR] Lat:</strong> The Latitude for pin.</li>
         <li><strong>[VARCHAR] Lng:</strong> The Longitude for pin.</li>
         <li><strong>[VARCHAR] Color:</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
-        <li><strong>[VARCHAR] Meta:</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
+        <li><strong>[VARCHAR] Tokens:</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
     </ol>
 </div>
 
