@@ -68,7 +68,10 @@ public class Controller
 	@Inject
 	@Path("edit.gtmpl")
 	Template edit;
-
+	
+	@Inject
+	juzu.plugin.asset.AssetController assetController;
+	
 	@View
 	public Response.Content index(RequestContext reqContext) throws IOException 
 	{
@@ -95,6 +98,8 @@ public class Controller
 
 		if (portletMode.equals(PortletMode.VIEW)) 
 		{
+			parameters.put("ajaxloader", assetController.byPath("images/ajax-loader.gif"));
+			
 			return index.with(parameters).ok();
 		} 
 		else if (portletMode.equals(PortletMode.EDIT)) 
@@ -201,8 +206,8 @@ public class Controller
 			String[] columns = fetcher.getQueryColumns();
 			log.info("[AMPLIATO CARTOPINS] rows: " + results.size() + " cols: " + columns.length);  
 			
-			if (columns.length < 6)
-				throw new Exception("Your query should have at least 6 pre-defined columns.");
+			if (columns.length != 7)
+				throw new Exception("Your query should have exactly 7 pre-defined columns.");
 			
 			if (!columns[0].toLowerCase().equals("name"))
 				throw new Exception("Column 1 must be called by 'name'.");
@@ -216,21 +221,26 @@ public class Controller
 				throw new Exception("Column 5 must be called by 'color'.");
 			if (!columns[5].toLowerCase().equals("tokens"))
 				throw new Exception("Column 6 must be called by 'tokens'.");
+			if (!columns[6].toLowerCase().equals("children"))
+				throw new Exception("Column 7 must be called by 'children'.");
 			
 			List<GeoData> allData = new ArrayList<GeoData>();
 			
 			for (String[] _d : results) 
 			{
-				GeoData d = new GeoData();
+				String aName = _d[0], aCount = _d[1], aLat = _d[2], aLng = _d[3];
 				
-				d.setName(_d[0]);
-				d.setCount(_d[1]);
-				d.setLat(_d[2]);
-				d.setLng(_d[3]);
-				d.setColor(_d[4]);
-				d.setTokens(_d[5]);
-				
-				allData.add(d);
+				// desde que haja latitude e longitude
+				if (aLat != null && aLat.length() > 0 && aLng != null && aLng.length() > 0) 
+				{
+					GeoData d = new GeoData(
+						aName, aCount, aLat, aLng, _d[4], _d[5], _d[6]	
+					);
+					allData.add(d);
+				}
+				else {
+					log.info("[AMPLIATO CARTOPINS] discarting data. there is no lat/lng: " + aName);
+				}
 			}
 			
 			c.geoDatas = util.search(criteria, allData);

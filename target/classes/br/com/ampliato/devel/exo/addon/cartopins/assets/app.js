@@ -23,20 +23,24 @@ var App =
 		
 		App.map = map;
 		
-		setTimeout(function() {App.searchCriteria("");},500);
+		setTimeout(function() {App.searchCriteria("");},1000);
 	},
 	
 	searchCriteria: function(criteria) 
 	{
+		$('#loading-indicator').css('display', '');
+		
 		$(".geopin-container").jzAjax({
 	        url: "Controller.searchGeopin()",
 	        data: {"criteria": criteria}
 	    }).done(function(data) {
+	    	$('#loading-indicator').css('display', 'none');
 	        var x2js = new X2JS();          
 	        var pins = x2js.xml2json(data);
 	        App.renderPins(pins.geoDataContainer.geoDatas);
     	}).error(function(jqxhr, text, error){
-			alert("error: " + text + " - " + error);
+    		$('#loading-indicator').css('display', 'none');
+			alert("[AMPLIATO CARTOPINS] General Error: " + text + " - " + error);
 		});
 		
 		return false;
@@ -85,12 +89,12 @@ var App =
 	        data: d,
 	    }).done(function(data) {
 	    	if (data.status =="ok"){
-	    		alert("Connection successfully tested.");
+	    		alert("[AMPLIATO CARTOPINS] Connection successfully tested.");
 	    	} else {
-	    		alert("Error testing connection: " +data.status);
+	    		alert("[AMPLIATO CARTOPINS] Error testing connection: " +data.status);
 	    	}
     	}).error(function(jqxhr, text, error){
-			alert("error: " + text + " - " + error);
+			alert("[AMPLIATO CARTOPINS] General Error: " + text + " - " + error);
 		});
 	}
 };

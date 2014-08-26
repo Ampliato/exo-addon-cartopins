@@ -22,6 +22,8 @@
                 <label class="sr-only" for="criteria">Search:</label>
         
                 <input type="text" style="min-width: 500px" class="form-control" id="criteria" placeholder="Enter a criteria">
+                
+                <img src="${ajaxloader}" id="loading-indicator" style="display:none" />
         
               </div>
         

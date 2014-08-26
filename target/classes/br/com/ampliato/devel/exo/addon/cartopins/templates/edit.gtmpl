@@ -126,7 +126,7 @@
 </form>
 
 <div style="padding-top:10px;">
-    <p>Your query must provide 6 different columns, and a bunch of rows as your needs. 
+    <p>Your query must provide 7 different columns, and a bunch of rows as your needs. 
         The columns provided must be strictly in this provided order bellow, along those names. Remeber that search occurs on server side,
         as ajaxfied search based on your "meta" column. So, if you provide millions of tuples, this portlet may crash your
         container's memory or cpu's resources. Beside this, you query must execute quick, because of "Refresh Time" parameter, giving
@@ -134,12 +134,13 @@
         by {tomcat-folder}/lib path.
     </p>
     <ol>
-        <li><strong>[VARCHAR] Name:</strong> The associated displayed name for pin.</li>
-        <li><strong>[VARCHAR] Count:</strong> The associated count for pin.</li>
-        <li><strong>[VARCHAR] Lat:</strong> The Latitude for pin.</li>
-        <li><strong>[VARCHAR] Lng:</strong> The Longitude for pin.</li>
-        <li><strong>[VARCHAR] Color:</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
-        <li><strong>[VARCHAR] Tokens:</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
+        <li><strong>[VARCHAR] 'name':</strong> The associated displayed name for pin.</li>
+        <li><strong>[VARCHAR] 'count':</strong> The associated count for pin.</li>
+        <li><strong>[VARCHAR] 'lat':</strong> The Latitude for pin.</li>
+        <li><strong>[VARCHAR] 'lng':</strong> The Longitude for pin.</li>
+        <li><strong>[VARCHAR] 'color':</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
+        <li><strong>[VARCHAR] 'tokens':</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
+        <li><strong>[VARCHAR] 'children':</strong> A comma separated string, that will be used to split (line feed) details about your main entity. (e.g. invoice items list, 1:N details about an occurence)</li>
     </ol>
 </div>
 

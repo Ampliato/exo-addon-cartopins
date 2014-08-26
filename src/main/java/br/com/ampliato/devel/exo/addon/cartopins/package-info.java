@@ -34,6 +34,7 @@
 	@Stylesheet("leaflet.css"),
 	@Stylesheet("app.css")
 })
+
 @Assets("*")
 @juzu.Application
 //@juzu.plugin.servlet.Servlet(value = "/")
