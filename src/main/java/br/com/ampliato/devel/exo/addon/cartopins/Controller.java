@@ -161,7 +161,7 @@ public class Controller
 	@Ajax
 	@Resource
 	@Route("/search")
-	public Response.Body searchGeopin(String criteria) 
+	public Response.Body searchGeopin(String criteria) throws Exception 
 	{
 		String driver = preferences.getValue("driver", "");
 		String host = preferences.getValue("host", "");
@@ -170,71 +170,83 @@ public class Controller
 	    String username = preferences.getValue("username", "");
 	    String password = preferences.getValue("password", "");
 	    String query = preferences.getValue("query", "");
-	    
-	    if (host == null || host.length() == 0 ||
-	    	port == null || port.length() == 0 ||
-	    	database == null || database.length() == 0 ||
-	    	username == null || username.length() == 0 ||
-	    	query == null || query.length() == 0)
-	    	throw new RuntimeException("You must configure your portlet before start searching.");
-	    
-	    DBConfig conf = new DBConfig();
-		conf.setDriver(driver);
-		conf.setHost(host);
-		conf.setPort(port);
-		conf.setDatabase(database);
-		conf.setUsername(username);
-		conf.setPassword(password);
-		
-		DBFetcher fetcher = new DBFetcher(conf);
-		
-		Date startDate = new Date();
-		
-		log.info("[AMPLIATO CARTOPINS] " + startDate + " - start searching: "+query);
-		fetcher.executeQuery(query);
-		log.info("[AMPLIATO CARTOPINS] "+ new Date() + " - end searching: "+query);
-		
-		List<String[]> results = fetcher.getQueryData();
-		String[] columns = fetcher.getQueryColumns();
-		log.info("[AMPLIATO CARTOPINS] rows: " + results.size() + " cols: " + columns.length);  
-		
-		if (columns.length < 6)
-			throw new RuntimeException("Your query should have at least 6 pre-defined columns.");
-		
-		if (!columns[0].toLowerCase().equals("name"))
-			throw new RuntimeException("Column 1 must be called by 'name'.");
-		if (!columns[1].toLowerCase().equals("count"))
-			throw new RuntimeException("Column 2 must be called by 'count'.");
-		if (!columns[2].toLowerCase().equals("lat"))
-			throw new RuntimeException("Column 3 must be called by 'lat'.");
-		if (!columns[3].toLowerCase().equals("lng"))
-			throw new RuntimeException("Column 4 must be called by 'lng'.");
-		if (!columns[4].toLowerCase().equals("color"))
-			throw new RuntimeException("Column 5 must be called by 'color'.");
-		if (!columns[5].toLowerCase().equals("tokens"))
-			throw new RuntimeException("Column 6 must be called by 'tokens'.");
-		
-		List<GeoData> allData = new ArrayList<GeoData>();
-		
-		for (String[] _d : results) 
-		{
-			GeoData d = new GeoData();
+	    GeoDataContainer c = new GeoDataContainer();
+	    try
+	    {
+	    	if (host == null || host.length() == 0 ||
+    		    port == null || port.length() == 0 ||
+    		    database == null || database.length() == 0 ||
+    		    username == null || username.length() == 0 ||
+    		    query == null || query.length() == 0) {
+    		    throw new Exception("You must configure your portlet before start searching.");
+    		}
+    		    
+		    DBConfig conf = new DBConfig();
+			conf.setDriver(driver);
+			conf.setHost(host);
+			conf.setPort(port);
+			conf.setDatabase(database);
+			conf.setUsername(username);
+			conf.setPassword(password);
 			
-			d.setName(_d[0]);
-			d.setCount(_d[1]);
-			d.setLat(_d[2]);
-			d.setLng(_d[3]);
-			d.setColor(_d[4]);
-			d.setTokens(_d[5]);
+			DBFetcher fetcher = new DBFetcher(conf);
 			
-			allData.add(d);
-		}
-		
-		GeoDataContainer c = new GeoDataContainer();
-		c.geoDatas = util.search(criteria, allData);
+			Date startDate = new Date();
+			
+			log.info("[AMPLIATO CARTOPINS] " + startDate + " - start searching");
+			fetcher.executeQuery(query);
+			log.info("[AMPLIATO CARTOPINS] "+ new Date() + " - end searching");
+			
+			List<String[]> results = fetcher.getQueryData();
+			String[] columns = fetcher.getQueryColumns();
+			log.info("[AMPLIATO CARTOPINS] rows: " + results.size() + " cols: " + columns.length);  
+			
+			if (columns.length < 6)
+				throw new Exception("Your query should have at least 6 pre-defined columns.");
+			
+			if (!columns[0].toLowerCase().equals("name"))
+				throw new Exception("Column 1 must be called by 'name'.");
+			if (!columns[1].toLowerCase().equals("count"))
+				throw new Exception("Column 2 must be called by 'count'.");
+			if (!columns[2].toLowerCase().equals("lat"))
+				throw new Exception("Column 3 must be called by 'lat'.");
+			if (!columns[3].toLowerCase().equals("lng"))
+				throw new Exception("Column 4 must be called by 'lng'.");
+			if (!columns[4].toLowerCase().equals("color"))
+				throw new Exception("Column 5 must be called by 'color'.");
+			if (!columns[5].toLowerCase().equals("tokens"))
+				throw new Exception("Column 6 must be called by 'tokens'.");
+			
+			List<GeoData> allData = new ArrayList<GeoData>();
+			
+			for (String[] _d : results) 
+			{
+				GeoData d = new GeoData();
+				
+				d.setName(_d[0]);
+				d.setCount(_d[1]);
+				d.setLat(_d[2]);
+				d.setLng(_d[3]);
+				d.setColor(_d[4]);
+				d.setTokens(_d[5]);
+				
+				allData.add(d);
+			}
+			
+			c.geoDatas = util.search(criteria, allData);
+			
+			return Response.Body.content(200, "").body(util.unmarshallData(c))
+					.withMimeType("application/xml");
 
-		return Response.Body.content(200, "").body(util.unmarshallData(c))
-				.withMimeType("application/xml");
+	    }
+	    catch(Exception e) 
+	    {
+	    	log.error("Erro ao processar: "+e.getMessage());
+	    	
+	    	e.printStackTrace();
+	    	c.geoDatas = null;
+			return Response.Body.content(500, "").body(util.unmarshallData(c)).withMimeType("application/xml");
+	    }
 	}
 	
 	@Ajax
