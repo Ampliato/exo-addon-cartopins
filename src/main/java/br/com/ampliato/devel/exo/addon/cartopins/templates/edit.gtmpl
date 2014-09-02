@@ -140,7 +140,7 @@
         <li><strong>[VARCHAR] 'lng':</strong> The Longitude for pin.</li>
         <li><strong>[VARCHAR] 'color':</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
         <li><strong>[VARCHAR] 'tokens':</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
-        <li><strong>[VARCHAR] 'children':</strong> A comma separated string, that will be used to split (line feed) details about your main entity. (e.g. invoice items list, 1:N details about an occurence)</li>
+        <li><strong>[VARCHAR] 'children':</strong> A comma separated string, that will be used to split (line feed) details about your main entity. The search engine will employ this list in search mechanism too. (e.g. invoice items list, 1:N details about an occurence)</li>
     </ol>
 </div>
 

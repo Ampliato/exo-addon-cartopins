@@ -15,22 +15,62 @@ public class GeopinUtil {
 	
 		List<GeoData> result = new ArrayList<GeoData>();
 	    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
+	    String criteriaNormalized = Normalizer.normalize(criteria, Normalizer.Form.NFD);
+		criteriaNormalized = pattern.matcher(criteriaNormalized).replaceAll("");
 	    
-		for (GeoData g : allData) {
+		for (GeoData g : allData) 
+		{
+			String tokensNormalized = Normalizer.normalize(g.getTokens().toLowerCase(), Normalizer.Form.NFD);
+			tokensNormalized = pattern.matcher(tokensNormalized).replaceAll("");
 			
-			String temp = Normalizer.normalize(g.getTokens().toLowerCase(), Normalizer.Form.NFD);
-			temp = pattern.matcher(temp).replaceAll("");
-		    
-			criteria = Normalizer.normalize(criteria, Normalizer.Form.NFD);
-			criteria = pattern.matcher(criteria).replaceAll("");
+			String rawChildrenNormalized = Normalizer.normalize(
+					(g.getRawChildren() != null && g.getRawChildren().length() > 0 ? g.getRawChildren().toLowerCase() : ""), 
+					Normalizer.Form.NFD
+			);
 			
-			if (temp.indexOf(criteria) > -1) {
-				result.add(g);
+			rawChildrenNormalized = pattern.matcher(rawChildrenNormalized).replaceAll("");
+			
+			boolean hasRawChildren = (g.getRawChildren() != null && g.getRawChildren().length() > 0);
+			
+			// comma-separated criteria
+			if (criteriaNormalized.indexOf(",") > -1) 
+			{
+				String[] splitedNormalizedCriteria = criteriaNormalized.split(",");
+				
+				boolean splittedMatched = false;
+				
+				for (int i = 0; i < splitedNormalizedCriteria.length; i++) 
+				{
+					// if not matched yet, search each one into tokens or children.
+					if (!splittedMatched && 
+						(
+							(tokensNormalized.indexOf(splitedNormalizedCriteria[i]) > -1) ||
+							(hasRawChildren && rawChildrenNormalized.indexOf(splitedNormalizedCriteria[i]) > -1)
+						)
+					) 
+					{
+						splittedMatched = true;
+						result.add(g);
+					}
+				}
+			}
+			// simple string criteria
+			else 
+			{
+				if (
+					(tokensNormalized.indexOf(criteriaNormalized) > -1) || 
+					(hasRawChildren && rawChildrenNormalized.indexOf(criteriaNormalized) > -1)
+				) 
+				{
+					result.add(g);
+				}
 			}
 		}
 
 		return result;
 	}
+	
 	
 	public String unmarshallData(GeoDataContainer container) 
 	{

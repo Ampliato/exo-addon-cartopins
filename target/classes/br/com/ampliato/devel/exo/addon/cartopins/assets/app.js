@@ -24,6 +24,12 @@ var App =
 		App.map = map;
 		
 		setTimeout(function() {App.searchCriteria("");},1000);
+		
+		setInterval(App.refreshSearch, refreshtime * 1000);
+	},
+	
+	refreshSearch: function() {
+		App.searchCriteria($("#criteria").val());
 	},
 	
 	searchCriteria: function(criteria) 
@@ -68,8 +74,20 @@ var App =
 			var icon = L.MakiMarkers.icon({icon: "marker-stroked", color: pin.color, size: "m"});
 			
 			var marker = L.marker([pin.lat, pin.lng], {icon: icon});
-			marker.bindPopup("<b>"+pin.name + " / " + pin.count+"!</b>");
 			
+			var popupContent = null;
+			var tokens = pin.tokens ? pin.tokens.split(",") : "";
+			var children = pin.children ? pin.children.join("<br/>") : "No related content.";
+			
+			popupContent = "" +
+			"<h4><b>"+pin.name + " (" + pin.count+ ")</b></h4>" +
+			"<h6>" + tokens + "</h6>" +
+			"<br/>" + 
+			"<h4>Related Data</h4>" +
+			"<h6>"+children+"</h6>";
+			
+			marker.bindPopup(popupContent);
+
 			App.markers.addLayer(marker);
 			App.map.addLayer(App.markers);
 		}

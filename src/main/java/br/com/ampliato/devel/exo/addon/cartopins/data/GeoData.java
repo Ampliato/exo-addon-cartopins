@@ -22,12 +22,14 @@ public class GeoData {
 		this.setColor(aColor);
 		this.setTokens(aTokens == null ? "" : aTokens);
 		
-		if (aChildren != null && aChildren.length() > 0) 
+		if (aChildren != null && aChildren.length() > 0) {
 			this.children = aChildren.split(",");
+			this.rawChildren = aChildren;
+		}
 		
 	}
 	
-	private String name, count, lat, lng, color, tokens;
+	private String name, count, lat, lng, color, tokens, rawChildren;
 	
 	private String[] children;
 	
@@ -76,5 +78,9 @@ public class GeoData {
 
 	public void setChildren(String[] children) {
 		this.children = children;
+	}
+	
+	public String getRawChildren() {
+		return rawChildren;
 	}
 }

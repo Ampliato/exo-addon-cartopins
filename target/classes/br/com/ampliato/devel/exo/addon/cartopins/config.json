@@ -77,6 +77,6 @@
   },
   "template":{
     "package":"br.com.ampliato.devel.exo.addon.cartopins.templates",
-    "templates":["br.com.ampliato.devel.exo.addon.cartopins.templates.index","br.com.ampliato.devel.exo.addon.cartopins.templates.edit"]
+    "templates":["br.com.ampliato.devel.exo.addon.cartopins.templates.edit","br.com.ampliato.devel.exo.addon.cartopins.templates.index"]
   }
 }
