@@ -68,15 +68,15 @@
   "portlet":{},
   "router":{
     "routes":[{
-        "handle":"br.com.ampliato.devel.exo.addon.cartopins.Controller#testDBConnection(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)",
-        "path":"/testdb"
-      },{
         "handle":"br.com.ampliato.devel.exo.addon.cartopins.Controller#searchGeopin(java.lang.String)",
         "path":"/search"
+      },{
+        "handle":"br.com.ampliato.devel.exo.addon.cartopins.Controller#testDBConnection(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)",
+        "path":"/testdb"
       }]
   },
   "template":{
     "package":"br.com.ampliato.devel.exo.addon.cartopins.templates",
-    "templates":["br.com.ampliato.devel.exo.addon.cartopins.templates.edit","br.com.ampliato.devel.exo.addon.cartopins.templates.index"]
+    "templates":["br.com.ampliato.devel.exo.addon.cartopins.templates.index","br.com.ampliato.devel.exo.addon.cartopins.templates.edit"]
   }
 }

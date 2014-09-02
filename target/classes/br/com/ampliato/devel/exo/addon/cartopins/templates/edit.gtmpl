@@ -1,4 +1,4 @@
-<form class="UIForm" action="@{save()}" id="cartopinconfigform" method="post">
+<form class="UIForm" style="padding: 20px" action="@{save()}" id="cartopinconfigform" method="post">
 
     <table class="UIFormGrid">
     
@@ -17,7 +17,7 @@
                 <input name="latitude" value="${latitude}" type="text"></input>
             </td>
             
-            <td class="FieldLabel">
+            <td class="FieldLabel" style="padding-left: 10px;">
                 <label for="longitude">Longitude:</label>
             </td>
             
@@ -36,7 +36,7 @@
                 <input name="refreshtime" value="${refreshtime}" type="number"></input>
             </td>
             
-            <td class="FieldLabel">
+            <td class="FieldLabel" style="padding-left: 10px;">
                 <label for="zoom">Map Zoom (1-13):</label>
             </td>
             
@@ -60,7 +60,7 @@
                 <select name="driver">${driverOptions}</select>
             </td>
 
-            <td class="FieldLabel">
+            <td class="FieldLabel" style="padding-left: 10px;">
                 <label for="host">Host:</label>
             </td>
             
@@ -81,7 +81,7 @@
             </td>
 
 
-            <td class="FieldLabel">
+            <td class="FieldLabel" style="padding-left: 10px;">
                 <label for="database">Database:</label>
             </td>
                 
@@ -101,7 +101,7 @@
                 <input name="username" value="${username}" type="text"></input>
             </td>
 
-            <td class="FieldLabel">
+            <td class="FieldLabel" style="padding-left: 10px;">
                 <label for="password">Password:</label>
             </td>
             

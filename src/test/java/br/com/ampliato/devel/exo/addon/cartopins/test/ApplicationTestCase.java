@@ -36,27 +36,27 @@ import org.openqa.selenium.WebElement;
 
 import br.com.ampliato.devel.exo.addon.cartopins.Application;
 
-@RunWith(Arquillian.class)
+//@RunWith(Arquillian.class)
 public class ApplicationTestCase {
 
-  @Deployment
-  public static WebArchive createDeployment() {
-    WebArchive war = Helper.createBaseServletDeployment("guice");
-    war.addPackages(true, Application.class.getPackage());
-    return war;
-  }
-
-  @Drone
-  WebDriver driver;
-
-  @ArquillianResource
-  URL deploymentURL;
-
-  @Test
-  @RunAsClient
-  public void testFoo() {
-    driver.get(deploymentURL.toString());
-    WebElement body = driver.findElement(By.tagName("body"));
-    assertEquals("Hello World", body.getText());
-  }
+//  @Deployment
+//  public static WebArchive createDeployment() {
+//    WebArchive war = Helper.createBaseServletDeployment("guice");
+//    war.addPackages(true, Application.class.getPackage());
+//    return war;
+//  }
+//
+//  @Drone
+//  WebDriver driver;
+//
+//  @ArquillianResource
+//  URL deploymentURL;
+//
+//  @Test
+//  @RunAsClient
+//  public void testFoo() {
+//    driver.get(deploymentURL.toString());
+//    WebElement body = driver.findElement(By.tagName("body"));
+//    assertEquals("Hello World", body.getText());
+//  }
 }

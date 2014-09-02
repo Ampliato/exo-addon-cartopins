@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.com.ampliato</groupId>
-	<artifactId>devel.exo.addon.proof</artifactId>
+	<artifactId>devel.exo.addon.cartopins</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>Juzu Application</name>
+	<name>Ampliato CartoPins</name>
 
 	<properties>
 		<maven.compiler.target>1.6</maven.compiler.target>
@@ -85,8 +85,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>devel.exo.addon.proof</finalName>
-
 		<pluginManagement>
 			<plugins>
 
