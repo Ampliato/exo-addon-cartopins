@@ -8,3 +8,7 @@
 	background-color: #777;
 	padding-top:  10px;
 }
+
+#loading-indicator {
+  position: absolute;
+}

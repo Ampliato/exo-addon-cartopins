@@ -1,3 +1,10 @@
+<script>
+    var latitude = ${latitude};
+    var longitude = ${longitude};
+    var refreshtime = ${refreshtime};
+    var zoom = ${zoom};
+    
+</script>
 
 <div class="geopin-container">
     
@@ -15,6 +22,8 @@
                 <label class="sr-only" for="criteria">Search:</label>
         
                 <input type="text" style="min-width: 500px" class="form-control" id="criteria" placeholder="Enter a criteria">
+                
+                <img src="${ajaxloader}" id="loading-indicator" style="display:none" />
         
               </div>
         

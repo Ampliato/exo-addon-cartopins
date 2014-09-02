@@ -34,9 +34,10 @@
 	@Stylesheet("leaflet.css"),
 	@Stylesheet("app.css")
 })
+
 @Assets("*")
 @juzu.Application
-@juzu.plugin.servlet.Servlet(value = "/")
+//@juzu.plugin.servlet.Servlet(value = "/")
 package br.com.ampliato.devel.exo.addon.cartopins;
 import juzu.plugin.asset.Assets;
 import juzu.plugin.asset.Script;

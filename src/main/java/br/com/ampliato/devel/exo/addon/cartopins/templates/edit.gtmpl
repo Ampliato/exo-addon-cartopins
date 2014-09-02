@@ -1,10 +1,150 @@
-<div class="UIFormWithTitle">
- <div class="TitleBar">Create a new account</div>
- <div class="HorizontalLayout">
-   <div class="FormContainer">
-     <form action="" method="post">
-       <input type="submit" value="Submit"/>
-     </form>
-   </div>
- </div>
+<form class="UIForm" action="@{save()}" id="cartopinconfigform" method="post">
+
+    <table class="UIFormGrid">
+    
+        <tr>
+            <td class="text-center" colspan="4" class="FieldLabel" scope="row">
+                <span><strong>Map Settings</strong></span>
+            </td>
+        </tr>
+    
+        <tr>
+            <td class="FieldLabel" scope="row">
+                <label for="latitude">Latitude:</label>
+            </td> 
+    
+            <td class="FieldComponent">
+                <input name="latitude" value="${latitude}" type="text"></input>
+            </td>
+            
+            <td class="FieldLabel">
+                <label for="longitude">Longitude:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="longitude" value="${longitude}" type="text"></input>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="FieldLabel">
+                <label for="refreshtime">Refresh Time (secs):</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="refreshtime" value="${refreshtime}" type="number"></input>
+            </td>
+            
+            <td class="FieldLabel">
+                <label for="zoom">Map Zoom (1-13):</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="zoom" value="${zoom}" type="number"></input>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="text-center" colspan="4" class="FieldLabel" scope="row">
+                 <span><strong>Database Settings</strong></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="FieldLabel" scope="row">
+                <label for="driver">Driver:</label>
+            </td> 
+    
+            <td class="FieldComponent">
+                <select name="driver">${driverOptions}</select>
+            </td>
+
+            <td class="FieldLabel">
+                <label for="host">Host:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="host" value="${host}" type="text"></input>
+            </td>
+
+        </tr>
+        
+        <tr>
+
+            <td class="FieldLabel">
+                <label for="port">Port:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="port" value="${port}" type="number"></input>
+            </td>
+
+
+            <td class="FieldLabel">
+                <label for="database">Database:</label>
+            </td>
+                
+            <td class="FieldComponent">
+                <input name="database" value="${database}" type="text"></input>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td class="FieldLabel">
+                <label for="username">Username:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="username" value="${username}" type="text"></input>
+            </td>
+
+            <td class="FieldLabel">
+                <label for="password">Password:</label>
+            </td>
+            
+            <td class="FieldComponent">
+                <input name="password" value="${password}" type="password"></input>
+            </td>
+
+        </tr>
+
+        <tr >
+            <td class="FieldLabel">
+                <label for="query">SQL Query:</label>
+            </td>
+            
+            <td colspan="3">
+                <textarea style="margin-left: 4px; min-width:558px" rows="10" cols="100" name="query">${query}</textarea>
+            </td>
+        </tr>
+        
+    </table>
+    
+</form>
+
+<div style="padding-top:10px;">
+    <p>Your query must provide 7 different columns, and a bunch of rows as your needs. 
+        The columns provided must be strictly in this provided order bellow, along those names. Remeber that search occurs on server side,
+        as ajaxfied search based on your "meta" column. So, if you provide millions of tuples, this portlet may crash your
+        container's memory or cpu's resources. Beside this, you query must execute quick, because of "Refresh Time" parameter, giving
+        users a good usability and responsiveness sense. Don't forget to put the driver class (JDBC driver lib) into classpath. Is is usually done
+        by {tomcat-folder}/lib path.
+    </p>
+    <ol>
+        <li><strong>[VARCHAR] 'name':</strong> The associated displayed name for pin.</li>
+        <li><strong>[VARCHAR] 'count':</strong> The associated count for pin.</li>
+        <li><strong>[VARCHAR] 'lat':</strong> The Latitude for pin.</li>
+        <li><strong>[VARCHAR] 'lng':</strong> The Longitude for pin.</li>
+        <li><strong>[VARCHAR] 'color':</strong> The color (e.g. #aaaaaa) associated for pin. It must be a 6-digit hex color.</li>
+        <li><strong>[VARCHAR] 'tokens':</strong> A comma separated string, that will be used to search your pins. (e.g. industry,sao paolo,brazil)</li>
+        <li><strong>[VARCHAR] 'children':</strong> A comma separated string, that will be used to split (line feed) details about your main entity. The search engine will employ this list in search mechanism too. (e.g. invoice items list, 1:N details about an occurence)</li>
+    </ol>
+</div>
+
+<div style="padding-top:10px;" class="text-center">
+    <button title="We will execute a 'SELECT 1' query only." onclick="App.testDBConnection();">Test Connection</button>
+    <input type="submit" value="Save" form="cartopinconfigform"/>
 </div>

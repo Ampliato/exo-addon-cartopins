@@ -9,7 +9,7 @@ public edit(TemplateService templatePlugin)
 {
 super(templatePlugin, "/br/com/ampliato/devel/exo/addon/cartopins/templates/edit.gtmpl");
 }
-public static final juzu.impl.plugin.template.metadata.TemplateDescriptor DESCRIPTOR = new juzu.impl.plugin.template.metadata.TemplateDescriptor("/br/com/ampliato/devel/exo/addon/cartopins/templates/edit.gtmpl",0xf9df4ac0a8395dcfL,br.com.ampliato.devel.exo.addon.cartopins.templates.edit.class,juzu.impl.template.spi.juzu.dialect.gtmpl.GroovyTemplateStub.class);
+public static final juzu.impl.plugin.template.metadata.TemplateDescriptor DESCRIPTOR = new juzu.impl.plugin.template.metadata.TemplateDescriptor("/br/com/ampliato/devel/exo/addon/cartopins/templates/edit.gtmpl",0x15167cafa6e97e2aL,br.com.ampliato.devel.exo.addon.cartopins.templates.edit.class,juzu.impl.template.spi.juzu.dialect.gtmpl.GroovyTemplateStub.class);
 public Builder builder() {
 return new Builder();
 }
