@@ -5,7 +5,9 @@ ___
 
 
   
-**Ampliato CartoPìns** is an [eXo Platform] add-on, developed by [Ampliato], built using [Juzu Framework] as a bridge to [Portlet][1] technology. Since eXo is built upon [JBoss GateIn Portal], this software runs gracefully in GateIn, as an addon too. 
+**Ampliato CartoPìns** is an [eXo Platform] add-on, developed by [Ampliato], built using [Juzu Framework] as a bridge to [Portlet][1] technology. Since eXo is built upon [JBoss GateIn Portal], this software runs gracefully in GateIn, as an addon too. We also complemented our showcase at YouTube:
+https://www.youtube.com/watch?v=-goq8XAJPsE
+
 
 ___
 #### General Purpose 
@@ -21,11 +23,6 @@ The main goal of this project is allow you render and search (using ajax) geogra
 * It allows you to render colored pins in maps. It's up to you define your pins colors.
 * It allows you to render 1:N related data, for each of your pins. The data is displayed inside Leaflet ballons.
 * It allows you to define a period for auto-refresh your map and your pins.
-
-We have a YouTube video illustrating everything that's documented over here. 
-
-https://www.youtube.com/watch?v=-goq8XAJPsE
-
 
 #### Example of Use
 This example of use is about displaying some ficticious customer's accounts into map and the currently monthly sales target, in a time frame scope. It allows you to search your data by vendor, account, region, city, state and other domain-oriented attributes.
