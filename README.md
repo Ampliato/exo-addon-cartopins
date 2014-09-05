@@ -22,6 +22,10 @@ The main goal of this project is allow you render and search (using ajax) geogra
 * It allows you to render 1:N related data, for each of your pins. The data is displayed inside Leaflet ballons.
 * It allows you to define a period for auto-refresh your map and your pins.
 
+We have a YouTube video illustrating everything that's documented over here. 
+
+https://www.youtube.com/watch?v=-goq8XAJPsE
+
 
 #### Example of Use
 This example of use is about displaying some ficticious customer's accounts into map and the currently monthly sales target, in a time frame scope. It allows you to search your data by vendor, account, region, city, state and other domain-oriented attributes.
