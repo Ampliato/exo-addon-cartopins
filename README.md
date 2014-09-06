@@ -7,8 +7,8 @@ ___
   
 **Ampliato CartoPìns** is an [eXo Platform] add-on, developed by [Ampliato], built using [Juzu Framework] as a bridge to [Portlet][1] technology. Since eXo is built upon [JBoss GateIn Portal], this software runs gracefully in GateIn, as an addon too. 
 We also complemented our documentation:
-YouTube video for demo and development guide: https://www.youtube.com/watch?v=-goq8XAJPsE
-eXo space for documentation and discussion: http://community.exoplatform.com/portal/g/:spaces:ampliato_cartopins/ampliato_cartopins
+[YouTube video][9] for demo and development guide. 
+[eXo Space][10] for documentation and discussion.
 
 ___
 #### General Purpose 
@@ -148,3 +148,6 @@ GPLv2
 [6]:http://www.developer.com/java/web/article.php/3372881/Developing-to-the-Java-Portlet-Specification.htm
 [7]:http://www.developer.com/java/web/article.php/10935_3846491_2/An-Introduction-to-Java-Enterprise-Portals-and-Portlet-Development.htm
 [8]:http://juzuweb.org/tutorial/index.html
+
+[9]:https://www.youtube.com/watch?v=-goq8XAJPsE
+[10]:http://community.exoplatform.com/portal/g/:spaces:ampliato_cartopins/ampliato_cartopins
